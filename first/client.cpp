@@ -11,7 +11,7 @@
 int main(int argc, char const *argv[])
 {
     int fd, numbytes;
-    char buf[MAXDATASIZE];
+    char buf[MAXDATASIZE], buffto[MAXDATASIZE];
     struct hostent* he;
     struct sockaddr_in server;
     if (argc != 2) {

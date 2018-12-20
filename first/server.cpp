@@ -8,11 +8,13 @@
 #include <string.h>
 #define PORT 1234
 #define BACKLOG 5
+#define MAXDATASIZE 100
 
 int main(int argc, char const *argv[])
 {
     int listenfd, connectfd;
-    int sin_size;
+    int numbytes;
+    char buf[MAXDATASIZE];
     struct sockaddr_in server, client;
     socklen_t clilen;
     listenfd = socket(AF_INET, SOCK_STREAM, 0);
@@ -34,10 +36,10 @@ int main(int argc, char const *argv[])
     }
     while(1) {
         clilen = sizeof(client);
-        if ((connectfd = accept(listenfd, (struct sockaddr*)&client, &clilen) == -1)) {
+        if ((connectfd = accept(listenfd, (struct sockaddr*)&client, &clilen)) == -1) {
             perror("Error: Accept failed!");
         } 
-        printf ("You got a connection from %s\n", inet_ntoa(client.sin_addr));
+        printf ("You got a connection from  %s, port=%d\n", inet_ntoa(client.sin_addr), ntohs(client.sin_port));
         close(connectfd);
     }
     return 0;
