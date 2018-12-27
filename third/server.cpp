@@ -91,14 +91,14 @@ void* start_routine(void* arg) {
                 perror("recv error");
                 break;
             }
+            pthread_setspecific(key, (void*)sum);
             if (buf[0] == 'q' && strlen(buf) == 1) {
                 printf("[!]pthread exit\n");
                 sum[index + 1] = '\0';
-                printf("recv all: %s\n", sum);
+                printf("[>]recv all: %s\n", pthread_getspecific(key));
                 close(info->connectfd);
                 break;
             } 
-            pthread_setspecific(key, (void*)sum);
             for (int i = 0; i < strlen(buf); i ++) {
                 sum[index++] = buf[i];
             }
